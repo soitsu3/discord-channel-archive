@@ -1,0 +1,1527 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hyperscale - updates-old</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-weight: 300;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-weight: 600;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-weight: 700;
+        }
+
+        body {
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .preserve-whitespace {
+            white-space: pre-wrap;
+        }
+
+        .spoiler-text {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .spoiler-text--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .spoiler-text--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .spoiler-text--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .quote {
+            display: flex;
+            margin: 0.05em 0;
+        }
+
+        .quote::before {
+            content: "";
+            margin-right: 0.5em;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .pre--multiline {
+            margin-top: 0.25em;
+            padding: 0.5em;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .pre--multiline.hljs {
+            background-color: #2f3136;
+            color: #b9bbbe;
+        }
+
+        .pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #dee0fc;
+            background-color: rgba(88, 101, 242, .3);
+            font-weight: 500;
+        }
+
+        .mention:hover {
+            background-color: #5865f2;
+            color: #ffffff
+        }
+
+        .timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .emoji {
+            width: 1.325em;
+            height: 1.325em;
+            margin: 0 0.06em;
+            vertical-align: -0.4em;
+        }
+
+        .emoji--small {
+            width: 1em;
+            height: 1em;
+        }
+
+        .emoji--large {
+            width: 2.8em;
+            height: 2.8em;
+        }
+
+        .preamble {
+            display: grid;
+            margin: 0 0.3em 0.6em 0.3em;
+            max-width: 100%;
+            grid-template-columns: auto 1fr;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 0.6em;
+        }
+
+        .preamble__entry {
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .preamble__entry--small {
+            font-size: 1em;
+        }
+
+        .chatlog {
+            max-width: 100%;
+        }
+
+        .chatlog__message-group {
+            display: grid;
+            margin: 0 0.6em;
+            padding: 0.9em 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            grid-template-columns: auto 1fr;
+        }
+
+        .chatlog__reference-symbol {
+            grid-column: 1;
+            margin: 8px 4px 4px 18px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            grid-column: 2;
+            margin-bottom: 0.25em;
+            font-size: 0.875em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-avatar {
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25em;
+        }
+
+        .chatlog__reference-name {
+            margin-right: 0.3em;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-content a:hover {
+            text-decoration: none;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.spoiler-text) {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25em;
+            font-size: 0.8em;
+            unicode-bidi: bidi-override;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__author-avatar-container {
+            grid-column: 1;
+            width: 40px;
+            height: 40px;
+            margin-right: 16px;
+        }
+
+        .chatlog__author-avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatlog__messages {
+            grid-column: 2;
+            min-width: 50%;
+            direction: ltr;
+        }
+
+        .chatlog__author-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3em;
+            font-size: 0.75em;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__message {
+            padding: 0.1em 0.3em;
+            margin: 0 -0.3em;
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__content {
+            font-size: 0.95em;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15em;
+            font-size: 0.8em;
+        }
+
+        .chatlog__attachment {
+            display: inline-block;
+            position: relative;
+            margin-top: 0.3em;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            z-index: 999;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.4em 0.8em;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            color: #dcddde;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            width: 100%;
+            max-width: 520px;
+            height: 40px;
+            padding: 10px;
+            background-color: #2f3136;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__edited-timestamp {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3em;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25em;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em 0.6em;
+            background-color: rgba(46, 48, 54, 0.3);
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author {
+            display: flex;
+            margin-bottom: 0.3em;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            margin-right: 0.5em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author-name {
+            font-size: 0.875em;
+            font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+            color: #ffffff
+        }
+
+        .chatlog__embed-author-name-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.2em;
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-description {
+            font-weight: 500;
+            font-size: 0.85em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5em;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6em;
+            font-size: 0.875em;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 150px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-field-value {
+            font-weight: 500;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            margin-left: 1.2em;
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            margin-right: 0.2em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            align-items: center;
+            margin: 0.35em 0.1em 0.1em 0;
+            padding: .125rem .375rem;
+            background-color: #2f3136;
+            border-radius: 8px;
+            border-color: transparent;
+            border-width: 1px;
+            border-style: solid;
+        }
+
+        .chatlog__reaction:hover {
+            border-color: hsla(0,0%,100%,.2);
+            border-width: 1px;
+            border-style: solid;
+            background-color: transparent;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35em;
+            font-size: 0.875em;
+            color: #b9bbbe;
+        }
+
+        .chatlog__reaction:hover .chatlog__reaction-count {
+            color: #dcddde;
+        }
+
+        .chatlog__bot-tag {
+            position: relative;
+            top: -.1em;
+            margin-left: 0.3em;
+            padding: 0.05em 0.3em;
+            border-radius: 3px;
+            line-height: 1.3;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625em;
+            font-weight: 500;
+        }
+
+        .postamble {
+            margin: 1.4em 0.3em 0.6em 0.3em;
+            padding: 1em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler-text--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler-text--hidden');
+            }
+            if (element && element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="icon-attachment" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z" />
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z" />
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z" />
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z" />
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/916751469678579784/874219cdd9c60b09fc62afefa1efea43.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Hyperscale</div>
+        <div class="preamble__entry">archived / updates-old</div>
+
+            <div class="preamble__entry preamble__entry--small">NOTICE: Archived channel. Please do NOT post!</div>
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">25-Dec-21 10:24 AM</span>
+
+            <div class="chatlog__message " data-message-id="924246238478626826" id="message-924246238478626826" title="Message sent: 25-Dec-21 10:24 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Please check out <span class="mention">#proposal-discussion</span>; specifically this message</span>
+
+                                <span class="chatlog__edited-timestamp" title="25-Dec-21 10:24 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">22</span>
+                            </div>
+                    </div>
+            </div>
+            <div class="chatlog__message " data-message-id="924246242635182120" id="message-924246242635182120" title="Message sent: 25-Dec-21 10:24 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><a href="https://discord.com/channels/916751469678579784/923608250891517972/924024286509928448" onclick="scrollToMessage(event, '924024286509928448')">https://discord.com/channels/916751469678579784/923608250891517972/924024286509928448</a></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="924246431726960691" id="message-924246431726960691" title="Message sent: 25-Dec-21 10:25 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Would greatly appreciate ideas and feedback</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="924246496499630100" id="message-924246496499630100" title="Message sent: 25-Dec-21 10:25 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Writing a blog post on the new structure and future of Hyperscale</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">26-Dec-21 07:49 AM</span>
+
+            <div class="chatlog__message " data-message-id="924569483153121292" id="message-924569483153121292" title="Message sent: 26-Dec-21 07:49 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> <em>Conducting interviews to improve the Hyperscale community. Would greatly appreciate your response to these simple questions! —Kevalin</em>
+- How did you find Hyperscale? What interests you?
+- How do you engage with the server? What would you like to get out of it?
+- What do you find confusing about Hyperscale? What do you find difficult?
+- If Hyperscale disappeared tomorrow how disappointed would you be? (0-5)
+
+Please DM me with answers! I&#39;d love to talk!!</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="wave_tone1">
+                                <img class="emoji emoji--small" alt="&#128075;&#127995;" src="https://twemoji.maxcdn.com/2/svg/1f44b-1f3fb.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">51</span>
+                            </div>
+                            <div class="chatlog__reaction" title="white_check_mark">
+                                <img class="emoji emoji--small" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">29</span>
+                            </div>
+                            <div class="chatlog__reaction" title="this">
+                                <img class="emoji emoji--small" alt="this" src="https://cdn.discordapp.com/emojis/842816937431007352.png" loading="lazy">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction" title="1000">
+                                <img class="emoji emoji--small" alt="1000" src="https://cdn.discordapp.com/emojis/917432959370407996.png" loading="lazy">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">29-Dec-21 09:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="925864170384134265" id="message-925864170384134265" title="Message sent: 29-Dec-21 09:33 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> <strong>WEEKLY GOALS</strong>
+<strong>Fund</strong>
+- Make &gt;5 investments
+- Release blog on structure &amp; funding process
+- Explore decentralized fund structures
+
+<strong>DAO race x Hackathon</strong>
+- Start hackathon this Friday!
+- Modify DAO race to view projects &amp; their progress updates for the hackathon
+
+<strong>Community</strong>
+- Build out a clear onboarding process
+- Have transparent internal efforts that anyone can contribute towards
+- Build out a team of community managers <em>(if this interests you DM me!)</em></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">40</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-21 05:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="925989192276795452" id="message-925989192276795452" title="Message sent: 30-Dec-21 05:50 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Update on Idena (the winner of the DAO race): talking with <span class="mention" title="AndrewEdi#8774">@AndrewEdi</span>, a co-founder of the project. I&#39;m waiting for his response &amp; will keep the community posted!</span>
+
+                                <span class="chatlog__edited-timestamp" title="30-Dec-21 05:51 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">30</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-21 07:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="926189366903181403" id="message-926189366903181403" title="Message sent: 30-Dec-21 07:05 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> <strong>Development update! Building out the DAO Sphere!
+</strong>
+<strong>The DAO Sphere is a directory that helps coordinate contributors. Here&#39;s what DAOs will be able to do:</strong>
+- Publish internal projects &amp; what&#39;s needed. Helps with transparency.
+- Post bounties for tasks that need to be completed (e.g. build a website). These will tie into the internal projects dashboard.
+- Create a DAO profile with one&#39;s direction, about, governance forum, &amp; helpful links.
+
+<strong>We&#39;re the MVP!!</strong> Right now our DAO profile is our Notion doc (<a href="https://bit.ly/3FJeM75)">https://bit.ly/3FJeM75)</a>. We&#39;re in the process of setting up bounties that&#39;ll be used for paying contributors (will be announced in <span class="mention">#updates-old</span>). Here&#39;s where you can find Hyperscale&#39;s internal projects, their progress, &amp; how you can help: <a href="https://bit.ly/3qBPMbp">https://bit.ly/3qBPMbp</a>
+
+<strong>DAO Sphere progress and how you can help:</strong>
+<a href="https://hyperscale.notion.site/DAO-Sphere-c6142cfdc93e44848d0d10ee4411ea0a">https://hyperscale.notion.site/DAO-Sphere-c6142cfdc93e44848d0d10ee4411ea0a</a>
+<span class="mention">#sphere-development</span></span>
+
+                                <span class="chatlog__edited-timestamp" title="30-Dec-21 07:44 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="fire">
+                                <img class="emoji emoji--small" alt="&#128293;" src="https://twemoji.maxcdn.com/2/svg/1f525.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">17</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">02-Jan-22 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="926989972014239854" id="message-926989972014239854" title="Message sent: 02-Jan-22 12:07 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Update on investments: we&#39;re currently in the process of making the first few investments. I&#39;m working on an article about the investment process, fund structure, and the plan moving forward. This article &amp; our investments will be announced over the next few days.</span>
+
+                                <span class="chatlog__edited-timestamp" title="02-Jan-22 12:07 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction" title="raised_hands">
+                                <img class="emoji emoji--small" alt="&#128588;" src="https://twemoji.maxcdn.com/2/svg/1f64c.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">02-Jan-22 04:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="927061370149679126" id="message-927061370149679126" title="Message sent: 02-Jan-22 04:50 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> <span class="mention" style="">@Core-Dev</span> <span class="mention" style="">@Core-Design</span> brainstorming how to airdrop tokens to contributors! <strong>Would love everyone&#39;s input!</strong> <a href="https://docs.google.com/document/d/1LfQ9kxestu2CcBdlEurGFeO5IrnV8Vz__YHDc0QR2vo/edit?usp=sharing">https://docs.google.com/document/d/1LfQ9kxestu2CcBdlEurGFeO5IrnV8Vz__YHDc0QR2vo/edit?usp=sharing</a></span>
+
+                        </div>
+                    </div>
+
+
+                        <div class="chatlog__embed">
+                                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://docs.google.com/document/d/1LfQ9kxestu2CcBdlEurGFeO5IrnV8Vz__YHDc0QR2vo/edit?usp=sharing">
+                                                        <div class="markdown preserve-whitespace">Brainstorming | Contributor Airdrop | Hyperscale</div>
+                                                    </a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">
+                                                <div class="markdown preserve-whitespace">How could Hyperscale airdrop to contributors in proportion to how much they’ve contributed? I’m thinking of having three tiers of contributors. There’ll be a monthly NFT airdrop that represents future HYPE tokens. I’m thinking that the NFTs will be redeemable for HYPE tokens at a future date. Co...</div>
+                                            </div>
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://images-ext-1.discordapp.net/external/UIMdP6Oz577IeTkjSk3X6GdoSs3M0-8OslCJcAgbdWA/https/lh4.googleusercontent.com/LeYKKGXgiY6FgqYomg24RrPy3DkS8rTFdGe1u8PcyVzz-khu1d_mRq-gFMf8NJCRHavb7x1_yHktEQ%3Dw1200-h630-p">
+                                                <img class="chatlog__embed-thumbnail" src="https://images-ext-1.discordapp.net/external/UIMdP6Oz577IeTkjSk3X6GdoSs3M0-8OslCJcAgbdWA/https/lh4.googleusercontent.com/LeYKKGXgiY6FgqYomg24RrPy3DkS8rTFdGe1u8PcyVzz-khu1d_mRq-gFMf8NJCRHavb7x1_yHktEQ%3Dw1200-h630-p" alt="Thumbnail" loading="lazy">
+                                            </a>
+                                        </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction" title="fingers_crossed">
+                                <img class="emoji emoji--small" alt="&#129310;" src="https://twemoji.maxcdn.com/2/svg/1f91e.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">02-Jan-22 09:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="927317244470509568" id="message-927317244470509568" title="Message sent: 02-Jan-22 09:47 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> the DAO Race is currently paused while we iterate on the ranking system. Decentralized investing is an iterative process. Our current &amp; future investment process will be announced today!</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">17</span>
+                            </div>
+                            <div class="chatlog__reaction" title="hourglass_flowing_sand">
+                                <img class="emoji emoji--small" alt="⏳" src="https://twemoji.maxcdn.com/2/svg/23f3.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+        <div class="chatlog__reference-symbol"></div>
+        <div class="chatlog__reference">
+                <img class="chatlog__reference-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+                <span class="chatlog__reference-name" title="kevalin#4394" style="color: rgb(31,139,76)">kevalin</span>
+                <div class="chatlog__reference-content">
+                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;926189366903181403&#39;)">
+<span class="mention">@here</span> <strong>Development update! Building out the DAO Sphere!
+</strong>
+<strong>The DAO Sphere is a directory that helps coordinate contributors. Here&#39;s what DAOs will be able to do:</strong>
+- Publish internal projects &amp; what&#39;s needed. Helps with transparency.
+- Post bounties for tasks that need to be completed (e.g. build a website). These will tie into the internal projects dashboard.
+- Create a DAO profile with one&#39;s direction, about, governance forum, &amp; helpful links.
+
+<strong>We&#39;re the MVP!!</strong> Right now our DAO profile is our Notion doc (<a href="https://bit.ly/3FJeM75)">https://bit.ly/3FJeM75)</a>. We&#39;re in the process of setting up bounties that&#39;ll be used for paying contributors (will be announced in <span class="mention">#updates-old</span>). Here&#39;s where you can find Hyperscale&#39;s internal projects, their progress, &amp; how you can help: <a href="https://bit.ly/3qBPMbp">https://bit.ly/3qBPMbp</a>
+
+<strong>DAO Sphere progress and how you can help:</strong>
+<a href="https://hyperscale.notion.site/DAO-Sphere-c6142cfdc93e44848d0d10ee4411ea0a">https://hyperscale.notion.site/DAO-Sphere-c6142cfdc93e44848d0d10ee4411ea0a</a>
+<span class="mention">#sphere-development</span>                    </span>
+
+                        <span class="chatlog__reference-edited-timestamp" title="30-Dec-21 07:44 PM">(edited)</span>
+                </div>
+        </div>
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">03-Jan-22 12:38 AM</span>
+
+            <div class="chatlog__message " data-message-id="927360114044829766" id="message-927360114044829766" title="Message sent: 03-Jan-22 12:38 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><strong>Updated info and direction here:</strong> <a href="https://discord.com/channels/916751469678579784/925928766235103292/927336395486421103" onclick="scrollToMessage(event, '927336395486421103')">https://discord.com/channels/916751469678579784/925928766235103292/927336395486421103</a>
+
+<strong>TL;DR</strong>
+- DAO Sphere != DAO Race
+- DAO Sphere is the infrastructure that contributors &amp; DAOs use to collaborate with other DAOs. It’s a directory.
+- Users see a DAO’s KPIs, bio, &amp; links to its product and community
+- KPIs are charted and provide signal. Using this we’re able to standardize DAOs and determine what makes a DAO “good.”
+- These KPIs will be used for the DAO Race v2. The next iteration of decentralized investing.
+- We’re rebranding to <span class="mention" title="Satoshiba#7422">@Satoshiba</span>&#39;s style
+
+Amazing work everyone! <strong>The DAO Sphere and DAO Race v2 is rolling out over the next 1-2 weeks!!</strong></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">07-Jan-22 04:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="928865845969551380" id="message-928865845969551380" title="Message sent: 07-Jan-22 04:21 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> everything that you need to know about the fund structure! <a href="https://docs.google.com/document/d/1u5f3JnyZonKdaFBxyhUHvIm9C-YVYXEdKPD_pPEwBFw/edit?usp=sharing">https://docs.google.com/document/d/1u5f3JnyZonKdaFBxyhUHvIm9C-YVYXEdKPD_pPEwBFw/edit?usp=sharing</a></span>
+
+                        </div>
+                    </div>
+
+
+                        <div class="chatlog__embed">
+                                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://docs.google.com/document/d/1u5f3JnyZonKdaFBxyhUHvIm9C-YVYXEdKPD_pPEwBFw/edit?usp=sharing">
+                                                        <div class="markdown preserve-whitespace">Fund Structure | Hyperscale</div>
+                                                    </a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">
+                                                <div class="markdown preserve-whitespace">Fund Structure FAQ  We’re going to be the most effective capital allocator in the world, starting with crypto. See more here!   How can I receive investment? Apply Interview Decision in &lt;1 week!  Why should I apply? Network of DAOs to work with &amp; sell to Community of contributors that can help w...</div>
+                                            </div>
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://images-ext-1.discordapp.net/external/tjCJCakDnLsq60Eqx_o75LDAZmQVgzOW8dtjk9Sn4T8/https/lh4.googleusercontent.com/aa7VQSYazN5W1VRBEKABU8CiXF0Vz6MqXiYU7KuO857Q5GHo97ReYLJ9LI2NAB2tQJfpLLWmyqJhHQ%3Dw1200-h630-p">
+                                                <img class="chatlog__embed-thumbnail" src="https://images-ext-1.discordapp.net/external/tjCJCakDnLsq60Eqx_o75LDAZmQVgzOW8dtjk9Sn4T8/https/lh4.googleusercontent.com/aa7VQSYazN5W1VRBEKABU8CiXF0Vz6MqXiYU7KuO857Q5GHo97ReYLJ9LI2NAB2tQJfpLLWmyqJhHQ%3Dw1200-h630-p" alt="Thumbnail" loading="lazy">
+                                            </a>
+                                        </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup_tone1">
+                                <img class="emoji emoji--small" alt="&#128077;&#127995;" src="https://twemoji.maxcdn.com/2/svg/1f44d-1f3fb.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">07-Jan-22 08:23 AM</span>
+
+            <div class="chatlog__message " data-message-id="928926800879431700" id="message-928926800879431700" title="Message sent: 07-Jan-22 08:23 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span><strong>General update on what&#39;s happening:</strong>
+- <strong>Investing (<span class="mention">#&#128176;investments</span>) <img loading="lazy" class="emoji " alt="⚡" title="zap" src="https://twemoji.maxcdn.com/2/svg/26a1.svg"> PRIMARY FOCUS <img loading="lazy" class="emoji " alt="⚡" title="zap" src="https://twemoji.maxcdn.com/2/svg/26a1.svg"></strong>
+We&#39;re in the process of reviewing, speaking with, &amp; investing in the first batch of DAOs. DAOs apply through a form, we interview great founders and DAOs that align with Hyperscale&#39;s vision, then we send them money. We&#39;re looking for the DAOs that&#39;ll become the core of the ecosystem. 
+
+The global internet economy is inevitable and we&#39;re catalyzing it. Using an economic graph we’ll become the most effective capital allocator in the world. Learn more about our vision here: <a href="https://bit.ly/3n0ePUA">https://bit.ly/3n0ePUA</a>
+
+- <strong>Product (<span class="mention">#&#128241;product</span>)</strong>
+Will help connect contributors and DAOs. Considering spinning off the Sphere into a separate DAO—more on this soon!!
+
+- <strong>Distribution (<span class="mention">#&#128266;distribution</span>)</strong>
+Content marketing
+Brand awareness
+Generally attracting great DAOs, founders, &amp; contributors
+
+<strong>How you can contribute?</strong>
+Investing is currently our primary focus.
+- Refer a DAO that receives investment and receive a 1-5K bounty. DAO should align with our vision: <a href="https://bit.ly/3n0ePUA">https://bit.ly/3n0ePUA</a>
+- Help with the distribution funnel in <span class="mention">#&#128266;distribution</span>. Right now we&#39;re focused on clearly communicating Hyperscale&#39;s value prop and optimizing conversions.
+
+<strong>Overview of what&#39;s ahead</strong>
+1. Announce investments
+2. Help investments succeed with internal product
+3. Scale up distribution when product has traction</span>
+
+                                <span class="chatlog__edited-timestamp" title="07-Jan-22 08:43 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+                        <div class="chatlog__embed">
+                                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://bit.ly/3n0ePUA">
+                                                        <div class="markdown preserve-whitespace">Vision | Hyperscale</div>
+                                                    </a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">
+                                                <div class="markdown preserve-whitespace">Vision  The global internet economy is inevitable and we&#39;re catalyzing it. Using an economic graph we’ll become the most effective capital allocator in the world.  Blockchains have enabled a global internet economy where DAOs will replace corporations. This global economy allows people to securel...</div>
+                                            </div>
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://images-ext-1.discordapp.net/external/COmofm-eQaywWNTDR7d8otvkdH6p7FlM-sKgLQPwWVQ/https/lh6.googleusercontent.com/3ScU7lCxTGM5p5YFzpQZZdVPk6k_EVUxz6V1J2qqJtySixrt5snMDKMBmGDZKIOTZEXzAHpbloG8Kw%3Dw1200-h630-p">
+                                                <img class="chatlog__embed-thumbnail" src="https://images-ext-1.discordapp.net/external/COmofm-eQaywWNTDR7d8otvkdH6p7FlM-sKgLQPwWVQ/https/lh6.googleusercontent.com/3ScU7lCxTGM5p5YFzpQZZdVPk6k_EVUxz6V1J2qqJtySixrt5snMDKMBmGDZKIOTZEXzAHpbloG8Kw%3Dw1200-h630-p" alt="Thumbnail" loading="lazy">
+                                            </a>
+                                        </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">19</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">08-Jan-22 03:40 PM</span>
+
+            <div class="chatlog__message " data-message-id="929399113936674906" id="message-929399113936674906" title="Message sent: 08-Jan-22 03:40 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@here</span> The rough version of the new landing page is complete! <img loading="lazy" class="emoji " alt="👉" title="point_right" src="https://twemoji.maxcdn.com/2/svg/1f449.svg"> <strong><a href="https://rebrand.hyperscalefund.com/">https://rebrand.hyperscalefund.com/</a></strong>
+
+This falls under the distribution category as it&#39;ll be what converts great founders!
+
+<strong>We still need</strong>
+- Optimize the copy
+- Optimize UX
+- Make it responsive
+- Add small details
+
+<strong>Help out in <span class="mention">#&#128266;distribution</span>!</strong></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="wink">
+                                <img class="emoji emoji--small" alt="&#128521;" src="https://twemoji.maxcdn.com/2/svg/1f609.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction" title="boom">
+                                <img class="emoji emoji--small" alt="&#128165;" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction" title="grimacing">
+                                <img class="emoji emoji--small" alt="&#128556;" src="https://twemoji.maxcdn.com/2/svg/1f62c.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">15-Jan-22 11:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="931872990310834227" id="message-931872990310834227" title="Message sent: 15-Jan-22 11:30 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><strong>Investments are going to be announced sometime over the next few days.
+</strong>
+We&#39;ll be scaling up Hyperscale&#39;s three pillars: investments, product, &amp; distribution.
+
+The Race (decentralized investing) will be brought back in the future. We&#39;ve got some exciting things in the pipeline for development.
+
+High level overview of what&#39;s next:
+- Platform that coordinates DAOs
+- Hyperscale token incentives
+
+Vision: <a href="https://bit.ly/3n0ePUA">https://bit.ly/3n0ePUA</a>
+
+<span class="mention">@here</span> <span class="mention" style="">@Core-Dev</span> <span class="mention" style="">@Core-Design</span>
+
+
+<strong>UPDATE: deal sourcing and legal have been the most difficult aspects of this. It&#39;s taking longer than expected.</strong></span>
+
+                                <span class="chatlog__edited-timestamp" title="29-Jan-22 02:47 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction" title="raised_hands">
+                                <img class="emoji emoji--small" alt="&#128588;" src="https://twemoji.maxcdn.com/2/svg/1f64c.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">19-Jan-22 08:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="933283492152897546" id="message-933283492152897546" title="Message sent: 19-Jan-22 08:55 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><strong>Announcing roadmap, mission, problem, structure, &amp; general direction soon. Will provide clarity for this next phase of Hyperscale.</strong></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">20</span>
+                            </div>
+                            <div class="chatlog__reaction" title="eyes">
+                                <img class="emoji emoji--small" alt="&#128064;" src="https://twemoji.maxcdn.com/2/svg/1f440.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/915035187547615243/8aec11e684cd1c3ab575358a58fda0bd.png?size=128" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kevalin#4394" data-user-id="915035187547615243" style="color: rgb(31,139,76)">kevalin</span>
+
+
+        <span class="chatlog__timestamp">26-Jan-22 12:08 PM</span>
+
+            <div class="chatlog__message " data-message-id="935868924271153153" id="message-935868924271153153" title="Message sent: 26-Jan-22 12:08 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><strong>Figured that I&#39;d update the OGs. Have been focused on the macro of Hyperscale. This is nearly decided so the community will pick back up soon. Thanks for sticking through this, you&#39;ll be remembered</strong> <img loading="lazy" class="emoji " alt="💖" title="sparkling_heart" src="https://twemoji.maxcdn.com/2/svg/1f496.svg"> 
+
+Investing was slowed along with a few other components. Expect this to change soon.</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="raised_hands_tone1">
+                                <img class="emoji emoji--small" alt="&#128588;&#127995;" src="https://twemoji.maxcdn.com/2/svg/1f64c-1f3fb.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">18</span>
+                            </div>
+                            <div class="chatlog__reaction" title="fire">
+                                <img class="emoji emoji--small" alt="&#128293;" src="https://twemoji.maxcdn.com/2/svg/1f525.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="emoji emoji--small" alt="&#128077;" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction" title="thinking">
+                                <img class="emoji emoji--small" alt="&#129300;" src="https://twemoji.maxcdn.com/2/svg/1f914.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction" title="SolFire">
+                                <img class="emoji emoji--small" alt="SolFire" src="https://cdn.discordapp.com/emojis/886124945497784360.gif" loading="lazy">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction" title="zap">
+                                <img class="emoji emoji--small" alt="⚡" src="https://twemoji.maxcdn.com/2/svg/26a1.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 18 message(s)</div>
+</div>
+
+</body>
+
+</html>
